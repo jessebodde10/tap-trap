@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function AanmeldenPage() {
   return (
-    <div className="min-h-full bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen overflow-y-auto bg-gray-50 dark:bg-gray-900">
       {/* Sticky header */}
       <div className="sticky top-0 z-10 border-b border-gray-100 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-900">
         <div className="mx-auto flex max-w-lg items-center gap-3">

@@ -72,7 +72,7 @@ export default function Home() {
   }
 
   return (
-    <div className="relative h-full overflow-hidden">
+    <div className="relative h-screen overflow-hidden">
       {/* Map fills the full screen including behind the header */}
       <div className="absolute inset-0 z-0">
         <MapWrapper
@@ -127,7 +127,7 @@ export default function Home() {
       <button
         onClick={handleLocate}
         disabled={locating}
-        className="absolute right-4 bottom-6 z-[999] flex flex-col items-center gap-0.5 rounded-2xl bg-white px-3 py-2 shadow-lg ring-1 ring-gray-200 transition hover:bg-orange-50 disabled:opacity-50 dark:bg-gray-800 dark:ring-gray-700 dark:hover:bg-gray-700"
+        className={`absolute right-4 bottom-6 z-[999] flex flex-col items-center gap-0.5 rounded-2xl bg-white px-3 py-2 shadow-lg ring-1 ring-gray-200 transition hover:bg-orange-50 disabled:opacity-50 dark:bg-gray-800 dark:ring-gray-700 dark:hover:bg-gray-700 ${selectedLocation ? "hidden" : ""}`}
       >
         {locating ? (
           <div className="h-5 w-5 animate-spin rounded-full border-2 border-orange-400 border-t-transparent" />
