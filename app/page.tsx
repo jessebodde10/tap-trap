@@ -162,7 +162,7 @@ export default function Home() {
       <div className="flex items-center justify-between px-4 pt-4 pb-2 shrink-0">
         <div>
           <h1 className="text-2xl font-semibold text-[#1A1A1A] leading-none">
-            Tap &amp;<span style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Trap</span>
+            Tap <span style={{ fontFamily: "var(--font-lora)", fontStyle: "italic", fontWeight: 700 }}>&amp;Trap</span>
           </h1>
           <p className="text-[10px] font-medium text-[#7A7465] tracking-wider mt-0.5 uppercase">
             Editie 14 · Speeldag 3

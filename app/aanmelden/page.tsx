@@ -22,7 +22,7 @@ export default function AanmeldenPage() {
               Meld je café aan
             </p>
             <h1 className="text-base font-semibold text-[#1A1A1A] leading-tight">
-              Tap &amp;<span style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Trap</span>
+              Tap <span style={{ fontFamily: "var(--font-lora)", fontStyle: "italic", fontWeight: 700 }}>&amp;Trap</span>
             </h1>
           </div>
         </div>
