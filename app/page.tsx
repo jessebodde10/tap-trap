@@ -61,6 +61,7 @@ export default function Home() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [mobileView, setMobileView] = useState<"kaart" | "lijst">("kaart");
   const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
 
   // Detect desktop breakpoint
   useEffect(() => {
@@ -80,10 +81,20 @@ export default function Home() {
   // Province list derived from filtered set
   const provinces = [...new Set(filtered.map((l) => getProvince(l.city)))].sort();
 
-  // Province-filtered items for list view
-  const listedLocations = selectedProvince
-    ? filtered.filter((l) => getProvince(l.city) === selectedProvince)
-    : filtered;
+  // Cities within the selected province (for sub-filter)
+  const citiesInProvince = selectedProvince
+    ? [...new Set(filtered.filter((l) => getProvince(l.city) === selectedProvince).map((l) => l.city))].sort()
+    : [];
+
+  // Province + city filtered items for list view
+  const listedLocations = filtered
+    .filter((l) => !selectedProvince || getProvince(l.city) === selectedProvince)
+    .filter((l) => !selectedCity || l.city === selectedCity);
+
+  function selectProvince(p: string | null) {
+    setSelectedProvince(p);
+    setSelectedCity(null); // reset stad bij nieuwe provincie
+  }
 
   function handleLocationSelect(loc: Location) {
     setSelectedLocation(loc);
@@ -287,7 +298,7 @@ export default function Home() {
             {/* Province chips */}
             <div className="flex gap-2 overflow-x-auto px-4 py-2.5 border-b border-[rgba(26,26,26,0.08)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shrink-0">
               <button
-                onClick={() => setSelectedProvince(null)}
+                onClick={() => selectProvince(null)}
                 className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors font-medium ${
                   !selectedProvince
                     ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
@@ -299,7 +310,7 @@ export default function Home() {
               {provinces.map((p) => (
                 <button
                   key={p}
-                  onClick={() => setSelectedProvince(p === selectedProvince ? null : p)}
+                  onClick={() => selectProvince(p === selectedProvince ? null : p)}
                   className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors font-medium ${
                     selectedProvince === p
                       ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
@@ -312,13 +323,33 @@ export default function Home() {
               <span className="shrink-0 w-4 inline-block" aria-hidden="true" />
             </div>
 
+            {/* City chips — verschijnt als provincie meerdere steden heeft */}
+            {selectedProvince && citiesInProvince.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto px-4 py-2 border-b border-[rgba(26,26,26,0.06)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden shrink-0 bg-[#EDE8D0]/50">
+                {citiesInProvince.map((city) => (
+                  <button
+                    key={city}
+                    onClick={() => setSelectedCity(city === selectedCity ? null : city)}
+                    className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors font-medium ${
+                      selectedCity === city
+                        ? "bg-[#1B4332] text-white border-[#1B4332]"
+                        : "bg-transparent text-[#1A1A1A] border-[rgba(26,26,26,0.2)] hover:border-[rgba(26,26,26,0.45)]"
+                    }`}
+                  >
+                    {city}
+                  </button>
+                ))}
+                <span className="shrink-0 w-4 inline-block" aria-hidden="true" />
+              </div>
+            )}
+
             {/* List header */}
             <div className="shrink-0 flex items-center justify-between px-4 py-2.5 border-b border-[rgba(26,26,26,0.08)]">
               <span
                 className="text-base font-medium text-[#1A1A1A]"
                 style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}
               >
-                {selectedProvince ?? "In de buurt"}
+                {selectedCity ?? selectedProvince ?? "In de buurt"}
               </span>
               <span className="text-xs text-[#7A7465] font-medium uppercase tracking-wider">
                 {listedLocations.length} cafés
