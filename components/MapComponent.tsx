@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import { Location, FlyToTarget } from "@/types";
@@ -15,22 +15,19 @@ function FlyToController({ target }: { target: FlyToTarget }) {
   return null;
 }
 
-function createPinIcon(color: string, size = 36) {
-  const half = size / 2;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size * 1.3}" viewBox="0 0 100 130">
-    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0004"/>
-    </filter>
-    <path d="M50 0C30.7 0 15 15.7 15 35c0 24.3 35 75 35 75s35-50.7 35-75C85 15.7 69.3 0 50 0z"
-          fill="${color}" filter="url(#sh)"/>
-    <circle cx="50" cy="35" r="16" fill="white" opacity="0.95"/>
-  </svg>`;
+function createNumberIcon(n: number) {
   return L.divIcon({
     className: "",
-    html: svg,
-    iconSize: [size, size * 1.3],
-    iconAnchor: [half, size * 1.3],
-    popupAnchor: [0, -(size * 1.3)],
+    html: `<div style="
+      width:28px;height:28px;background:white;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Barlow Condensed',system-ui,sans-serif;font-weight:800;
+      font-size:12px;color:#0D0D0D;border:2px solid #0D0D0D;
+      box-shadow:0 2px 6px rgba(0,0,0,0.4)
+    ">${n}</div>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14],
+    popupAnchor: [0, -14],
   });
 }
 
@@ -41,8 +38,6 @@ interface Props {
 }
 
 export default function MapComponent({ locations, flyTo, onLocationSelect }: Props) {
-  const orangeIcon = useMemo(() => createPinIcon("#f97316"), []);
-
   return (
     <MapContainer
       center={[52.3, 5.29]}
@@ -55,15 +50,15 @@ export default function MapComponent({ locations, flyTo, onLocationSelect }: Pro
       zoomControl={false}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
       />
       <FlyToController target={flyTo} />
-      {locations.map((loc) => (
+      {locations.map((loc, i) => (
         <Marker
           key={loc.id}
           position={[loc.lat, loc.lng]}
-          icon={orangeIcon}
+          icon={createNumberIcon(i + 1)}
           eventHandlers={{ click: () => onLocationSelect(loc) }}
         />
       ))}

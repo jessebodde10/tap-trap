@@ -24,44 +24,45 @@ export default function SearchBar({ onCityFound }: Props) {
       );
       const data = await res.json();
       if (data.length === 0) {
-        setError("Stad niet gevonden — probeer een andere spelling");
+        setError("Stad niet gevonden");
       } else {
         onCityFound([parseFloat(data[0].lat), parseFloat(data[0].lon)]);
         setError("");
         setQuery("");
       }
     } catch {
-      setError("Zoekopdracht mislukt, controleer je verbinding");
+      setError("Zoekopdracht mislukt");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="bg-white dark:bg-gray-900 px-4 py-2 border-b border-gray-100 dark:border-gray-800">
-      <form onSubmit={handleSearch} className="flex items-center gap-2">
+    <div className="px-4 py-2.5 border-b border-[#2A2A2A] shrink-0">
+      <form onSubmit={handleSearch} className="flex items-center gap-0">
         <div className="relative flex-1">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/25" />
           <input
             type="text"
             value={query}
             onChange={(e) => { setQuery(e.target.value); setError(""); }}
-            placeholder="Zoek een stad…"
-            className="w-full rounded-xl border border-gray-200 bg-gray-50 py-2 pl-9 pr-3 text-sm outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+            placeholder="Zoek café, buurt of straat…"
+            className="w-full bg-[#1A1A1A] border border-[#2A2A2A] border-r-0 py-2.5 pl-9 pr-3 text-sm font-semibold text-white placeholder-white/25 outline-none focus:border-[#F5A800] transition-colors"
           />
         </div>
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center gap-1.5 rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600 disabled:opacity-50"
+          className="bg-[#F5A800] text-black px-4 py-2.5 border border-[#F5A800] disabled:opacity-50 transition-opacity"
         >
-          {loading ? <Loader2 size={14} className="animate-spin" /> : <Search size={14} />}
-          <span className="hidden sm:inline">Zoeken</span>
+          {loading
+            ? <Loader2 size={16} className="animate-spin" />
+            : <Search size={16} />
+          }
         </button>
       </form>
-      {/* Error renders inline below the input — no floating overlap */}
       {error && (
-        <p className="mt-1 pl-1 text-xs text-red-500">{error}</p>
+        <p className="mt-1 text-xs font-bold text-red-400 uppercase tracking-wide">{error}</p>
       )}
     </div>
   );

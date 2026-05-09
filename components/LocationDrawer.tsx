@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, MapPin, Tv, Leaf, Clock, Monitor, Navigation } from "lucide-react";
+import { X, MapPin } from "lucide-react";
 import { Location } from "@/types";
 
 interface Props {
@@ -11,11 +11,6 @@ interface Props {
 
 function pad(h: number) {
   return String(h).padStart(2, "0") + ":00";
-}
-
-function formatTimeRange(open: number, close: number) {
-  const spansMidnight = close < open;
-  return `${pad(open)} – ${pad(close)}${spansMidnight ? " 's nachts" : ""}`;
 }
 
 function isOpen(loc: Location): boolean {
@@ -41,139 +36,104 @@ export default function LocationDrawer({ location, onClose }: Props) {
 
   return (
     <>
-      {/* Backdrop — mobile only */}
+      {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-40 bg-black/30 transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 ${
           location ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
       />
 
-      {/* Drawer panel
-          Mobile : fixed slide-up from bottom
-          Desktop: fixed panel below the header (top driven by --header-h CSS var set in page.tsx) */}
+      {/* Drawer */}
       <div
-        style={{ ["--tw-top" as string]: "var(--header-h, 220px)" }}
         className={`
-          fixed inset-x-0 bottom-0 z-50 rounded-t-3xl bg-white shadow-2xl
-          transition-all duration-300 ease-out dark:bg-gray-900
-          md:inset-x-auto md:right-4 md:bottom-auto md:w-96 md:rounded-2xl
-          [top:auto] md:[top:var(--header-h,220px)]
+          fixed inset-x-0 bottom-0 z-50 overflow-hidden
+          transition-all duration-300 ease-out
+          md:inset-x-auto md:right-4 md:bottom-4 md:w-96
           ${location
             ? "translate-y-0 opacity-100"
-            : "translate-y-full opacity-0 pointer-events-none md:translate-y-2 md:opacity-0"
+            : "translate-y-full opacity-0 pointer-events-none md:translate-y-4 md:opacity-0"
           }
         `}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
         {location && (
-          <>
-            {/* Swipe handle — mobile only */}
-            <div className="mx-auto mt-3 h-1 w-10 rounded-full bg-gray-200 dark:bg-gray-700 md:hidden" />
+          <div className="bg-[#0D0D0D] overflow-hidden">
+            {/* Swipe handle — mobile */}
+            <div className="flex justify-center pt-2 pb-1 md:hidden bg-[#F5A800]">
+              <div className="h-1 w-10 rounded-full bg-black/20" />
+            </div>
 
-            <div className="p-5">
-              {/* Name + close */}
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h2 className="text-lg font-bold text-gray-900 dark:text-white leading-tight">
-                    {location.name}
-                  </h2>
-                  <div className="mt-1 flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
-                    <MapPin size={12} />
-                    {location.address}
-                  </div>
-                </div>
+            {/* Amber header */}
+            <div className="bg-[#F5A800] px-5 pt-3 pb-5">
+              {/* Top row */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[10px] font-black uppercase tracking-widest text-black/50">
+                  {location.city}
+                </span>
                 <button
                   onClick={onClose}
-                  className="shrink-0 rounded-full bg-gray-100 p-2 text-gray-500 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400"
+                  className="flex items-center justify-center w-7 h-7 bg-black/10 hover:bg-black/20 transition-colors"
                 >
-                  <X size={15} />
+                  <X size={14} className="text-black" />
                 </button>
               </div>
 
-              {/* Open/closed status */}
-              <div className="mt-3 flex items-center gap-2 flex-wrap">
-                <span
-                  className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${
-                    open
-                      ? "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400"
-                      : "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400"
-                  }`}
-                >
-                  <span className={`h-2 w-2 rounded-full ${open ? "bg-green-500" : "bg-red-500"}`} />
-                  {open ? "Nu open" : `Gesloten · opent ${pad(location.openHour)}`}
-                </span>
-                <span className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
-                  <Clock size={11} />
-                  {formatTimeRange(location.openHour, location.closeHour)}
-                </span>
-              </div>
+              {/* Café name */}
+              <h2 className="text-4xl font-black uppercase leading-none tracking-tight text-black mb-3">
+                {location.name}
+              </h2>
 
-              {/* Google Maps button */}
+              {/* Status row */}
+              <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex items-center gap-1.5">
+                  <span className={`w-2 h-2 rounded-full ${open ? "bg-black" : "bg-black/30"}`} />
+                  <span className="text-xs font-black uppercase tracking-wide text-black">
+                    {open
+                      ? `Open · tot ${pad(location.closeHour)}`
+                      : `Gesloten · opent ${pad(location.openHour)}`}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 text-xs font-bold text-black/40">
+                  <MapPin size={10} />
+                  {location.address.split(",")[0]}
+                </div>
+              </div>
+            </div>
+
+            {/* Feature grid */}
+            <div className="grid grid-cols-2 gap-px bg-[#2A2A2A] border-b border-[#2A2A2A]">
+              <FeatureCell label="Schermen" value={`${location.screens} · ${location.hasLargeScreen ? "Groot" : "Normaal"}`} />
+              <FeatureCell label="Terras" value={location.hasTerrace ? "Ja" : "Nee"} dim={!location.hasTerrace} />
+              <FeatureCell label="Groot scherm" value={location.hasLargeScreen ? "Ja" : "Nee"} dim={!location.hasLargeScreen} />
+              <FeatureCell label="Openingstijden" value={`${pad(location.openHour)}–${pad(location.closeHour)}`} />
+            </div>
+
+            {/* Routebeschrijving CTA */}
+            <div className="p-4">
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.name + " " + location.address)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-blue-500 py-2.5 text-sm font-semibold text-white hover:bg-blue-600 transition-colors"
+                className="flex w-full items-center justify-center gap-2 bg-white text-black py-4 text-sm font-black uppercase tracking-widest hover:bg-[#F5A800] transition-colors"
               >
-                <Navigation size={14} />
-                Open in Google Maps
+                Routebeschrijving →
               </a>
-
-              {/* Feature grid */}
-              <div className="mt-4 grid grid-cols-2 gap-2.5">
-                <Tile
-                  icon={<Tv size={17} className="text-orange-500" />}
-                  label="Schermen"
-                  value={String(location.screens)}
-                  active
-                  color="orange"
-                />
-                <Tile
-                  icon={<Leaf size={17} className={location.hasTerrace ? "text-green-600" : "text-gray-400"} />}
-                  label="Terras"
-                  value={location.hasTerrace ? "Ja" : "Nee"}
-                  active={location.hasTerrace}
-                  color="green"
-                />
-                <Tile
-                  icon={<Monitor size={17} className={location.hasLargeScreen ? "text-blue-500" : "text-gray-400"} />}
-                  label="Groot scherm"
-                  value={location.hasLargeScreen ? "Ja" : "Nee"}
-                  active={location.hasLargeScreen}
-                  color="blue"
-                />
-              </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </>
   );
 }
 
-function Tile({
-  icon, label, value, active, color,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  active: boolean;
-  color: "orange" | "green" | "blue";
-}) {
-  const bg = active
-    ? color === "orange" ? "bg-orange-50 dark:bg-orange-900/20"
-    : color === "green"  ? "bg-green-50 dark:bg-green-900/20"
-    :                      "bg-blue-50 dark:bg-blue-900/20"
-    : "bg-gray-50 opacity-50 dark:bg-gray-800";
-
+function FeatureCell({ label, value, dim }: { label: string; value: string; dim?: boolean }) {
   return (
-    <div className={`flex items-center gap-2 rounded-xl p-3 ${bg}`}>
-      {icon}
-      <div>
-        <div className="text-xs text-gray-500 dark:text-gray-400">{label}</div>
-        <div className="font-semibold text-gray-900 dark:text-white text-sm">{value}</div>
+    <div className="bg-[#0D0D0D] px-4 py-3">
+      <div className="text-[9px] font-black uppercase tracking-widest text-white/25 mb-1">{label}</div>
+      <div className={`text-sm font-black uppercase tracking-wide ${dim ? "text-white/25" : "text-white"}`}>
+        {value}
       </div>
     </div>
   );

@@ -1,43 +1,35 @@
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import AanmeldenForm from "./AanmeldenForm";
 
 export const metadata = {
-  title: "Café aanmelden — WK 2026 Spotter",
+  title: "Café aanmelden — Tap & Trap",
 };
 
 export default function AanmeldenPage() {
   return (
-    <div className="min-h-screen overflow-y-auto bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-[#0D0D0D]">
       {/* Sticky header */}
-      <div className="sticky top-0 z-10 border-b border-gray-100 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-900">
+      <div className="sticky top-0 z-10 border-b border-[#2A2A2A] bg-[#0D0D0D] px-4 py-4">
         <div className="mx-auto flex max-w-lg items-center gap-3">
           <Link
             href="/"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 transition-colors"
+            className="flex h-9 w-9 items-center justify-center border border-[#2A2A2A] text-white/50 hover:border-[#F5A800] hover:text-[#F5A800] transition-colors text-lg font-black"
           >
-            <ArrowLeft size={17} />
+            ←
           </Link>
           <div>
-            <h1 className="font-bold text-gray-900 dark:text-white">Café aanmelden</h1>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Zet jouw kroeg op de WK 2026 kaart
+            <p className="text-[10px] font-black uppercase tracking-widest text-[#F5A800]">
+              Meld je café aan
             </p>
+            <h1 className="text-lg font-black uppercase tracking-tight text-white leading-tight">
+              Tap &amp; Trap
+            </h1>
           </div>
-          <span className="ml-auto text-2xl">🇳🇱</span>
         </div>
       </div>
 
       {/* Form */}
       <div className="mx-auto max-w-lg px-4 py-6">
-        {/* Uitleg banner */}
-        <div className="mb-6 rounded-2xl bg-orange-50 p-4 dark:bg-orange-900/20">
-          <p className="text-sm text-orange-800 dark:text-orange-300">
-            <strong>Kroegbazen welkom!</strong> Vul hieronder je gegevens in. Na het indienen
-            verschijnt je café direct op de kaart voor alle WK-kijkers in de buurt.
-          </p>
-        </div>
-
         <AanmeldenForm />
       </div>
     </div>
