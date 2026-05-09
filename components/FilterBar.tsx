@@ -47,6 +47,8 @@ export default function FilterBar({ filters, onChange, onLocate, locating }: Pro
       >
         {locating ? "…" : "Bij mij"}
       </button>
+      {/* Spacer so last chip isn't clipped by overflow-x scroll */}
+      <span className="shrink-0 w-4 inline-block" aria-hidden="true" />
     </div>
   );
 }

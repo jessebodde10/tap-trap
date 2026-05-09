@@ -268,12 +268,12 @@ export default function Home() {
             onLocationSelect={handleLocationSelect}
           />
 
-          {/* Locate button — always in map area */}
+          {/* Locate button — desktop only (mobile uses the "Bij mij" filter chip) */}
           {!selectedLocation && (
             <button
               onClick={handleLocate}
               disabled={locating}
-              className="absolute right-3 bottom-4 z-[999] flex flex-col items-center gap-0.5 bg-white/90 backdrop-blur-sm border border-[rgba(26,26,26,0.12)] rounded-xl px-3 py-2 shadow-sm disabled:opacity-50 hover:bg-white transition-colors"
+              className="hidden md:flex absolute right-3 bottom-4 z-[999] flex-col items-center gap-0.5 bg-white/90 backdrop-blur-sm border border-[rgba(26,26,26,0.12)] rounded-xl px-3 py-2 shadow-sm disabled:opacity-50 hover:bg-white transition-colors"
             >
               {locating
                 ? <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#1B4332] border-t-transparent" />

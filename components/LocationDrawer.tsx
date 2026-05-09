@@ -36,9 +36,9 @@ export default function LocationDrawer({ location, onClose }: Props) {
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Backdrop — mobile only (desktop drawer is a floating panel, no overlay needed) */}
       <div
-        className={`fixed inset-0 z-[600] bg-black/40 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[600] bg-black/40 transition-opacity duration-300 md:hidden ${
           location ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
