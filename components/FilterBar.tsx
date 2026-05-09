@@ -35,11 +35,11 @@ export default function FilterBar({ filters, onChange, onLocate, locating }: Pro
           {label}
         </button>
       ))}
-      {/* Bij mij — triggers geolocation */}
+      {/* Bij mij — alleen op mobiel (desktop heeft de Locatie-knop op de kaart) */}
       <button
         onClick={onLocate}
         disabled={locating}
-        className={`shrink-0 text-sm px-4 py-1.5 rounded-full border transition-colors font-medium ${
+        className={`shrink-0 md:hidden text-sm px-4 py-1.5 rounded-full border transition-colors font-medium ${
           locating
             ? "bg-[#1B4332] text-white border-[#1B4332] opacity-60"
             : "bg-transparent text-[#1A1A1A] border-[rgba(26,26,26,0.25)] hover:border-[rgba(26,26,26,0.5)]"

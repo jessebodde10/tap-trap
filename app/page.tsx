@@ -50,19 +50,6 @@ function isNachtOpen(loc: Location): boolean {
   return loc.closeHour < loc.openHour && loc.closeHour >= 2;
 }
 
-function DrukteDots({ n }: { n: number }) {
-  const filled = Math.min(Math.ceil(n / 10), 3);
-  return (
-    <span className="inline-flex gap-0.5 items-center">
-      {[1, 2, 3].map((i) => (
-        <span
-          key={i}
-          className={`inline-block w-1.5 h-1.5 rounded-full ${i <= filled ? "bg-[#C97A0A]" : "bg-[#1A1A1A]/15"}`}
-        />
-      ))}
-    </span>
-  );
-}
 
 export default function Home() {
   const [filters, setFilters] = useState<Filters>({
@@ -148,10 +135,6 @@ export default function Home() {
                       </p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <span className="text-xs text-[#7A7465]">{loc.screens}× scherm</span>
-                        <DrukteDots n={loc.screens * 8} />
-                        <span className="text-xs text-[#7A7465]">
-                          {loc.screens >= 6 ? "druk" : loc.screens >= 3 ? "gezellig" : "rustig"}
-                        </span>
                       </div>
                     </div>
                     <span className={`shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full ${
@@ -261,8 +244,8 @@ export default function Home() {
                 >
                   In de buurt
                 </span>
-                <span className="text-xs text-[#7A7465] font-medium uppercase tracking-wider">
-                  Op afstand ↑
+                <span className="text-xs text-[#7A7465] font-medium">
+                  {filtered.length} cafés
                 </span>
               </div>
               <CafeList items={filtered} />

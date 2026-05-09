@@ -77,14 +77,6 @@ export default function LocationDrawer({ location, onClose }: Props) {
                   >
                     <ArrowLeft size={16} className="text-white" />
                   </button>
-                  <div className="flex gap-2">
-                    <button className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
-                      <span className="text-white text-sm">✏</span>
-                    </button>
-                    <button className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
-                      <span className="text-white text-sm">★</span>
-                    </button>
-                  </div>
                 </div>
 
                 {/* Category label */}

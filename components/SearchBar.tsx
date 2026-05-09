@@ -46,7 +46,7 @@ export default function SearchBar({ onCityFound }: Props) {
             type="text"
             value={query}
             onChange={(e) => { setQuery(e.target.value); setError(""); }}
-            placeholder="Zoek café, buurt of straat…"
+            placeholder="Zoek een stad of buurt…"
             className="w-full bg-white/70 border border-[rgba(26,26,26,0.15)] rounded-full py-2 pl-9 pr-3 text-sm text-[#1A1A1A] placeholder-[#7A7465] outline-none focus:border-[#1B4332] focus:ring-2 focus:ring-[#1B4332]/10 transition-colors"
           />
         </div>
