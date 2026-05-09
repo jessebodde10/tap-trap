@@ -38,7 +38,7 @@ export default function LocationDrawer({ location, onClose }: Props) {
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[600] bg-black/60 transition-opacity duration-300 ${
           location ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
@@ -47,81 +47,87 @@ export default function LocationDrawer({ location, onClose }: Props) {
       {/* Drawer */}
       <div
         className={`
-          fixed inset-x-0 bottom-0 z-50 overflow-hidden
+          fixed inset-x-0 bottom-0 z-[700]
+          max-h-[92svh] flex flex-col
           transition-all duration-300 ease-out
           md:inset-x-auto md:right-4 md:bottom-4 md:w-96
           ${location
             ? "translate-y-0 opacity-100"
-            : "translate-y-full opacity-0 pointer-events-none md:translate-y-4 md:opacity-0"
+            : "translate-y-full opacity-0 pointer-events-none"
           }
         `}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
         {location && (
-          <div className="bg-[#0D0D0D] overflow-hidden">
-            {/* Swipe handle — mobile */}
-            <div className="flex justify-center pt-2 pb-1 md:hidden bg-[#F5A800]">
-              <div className="h-1 w-10 rounded-full bg-black/20" />
-            </div>
-
-            {/* Amber header */}
-            <div className="bg-[#F5A800] px-5 pt-3 pb-5">
-              {/* Top row */}
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-black/50">
-                  {location.city}
-                </span>
-                <button
-                  onClick={onClose}
-                  className="flex items-center justify-center w-7 h-7 bg-black/10 hover:bg-black/20 transition-colors"
-                >
-                  <X size={14} className="text-black" />
-                </button>
+          <>
+            {/* Amber header — always visible */}
+            <div className="bg-[#F5A800] shrink-0">
+              {/* Swipe handle */}
+              <div className="flex justify-center pt-2 pb-0 md:hidden">
+                <div className="h-1 w-10 rounded-full bg-black/20" />
               </div>
 
-              {/* Café name */}
-              <h2 className="text-4xl font-black uppercase leading-none tracking-tight text-black mb-3">
-                {location.name}
-              </h2>
-
-              {/* Status row */}
-              <div className="flex items-center gap-3 flex-wrap">
-                <div className="flex items-center gap-1.5">
-                  <span className={`w-2 h-2 rounded-full ${open ? "bg-black" : "bg-black/30"}`} />
-                  <span className="text-xs font-black uppercase tracking-wide text-black">
-                    {open
-                      ? `Open · tot ${pad(location.closeHour)}`
-                      : `Gesloten · opent ${pad(location.openHour)}`}
+              <div className="px-5 pt-3 pb-5">
+                {/* Top row */}
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-black/50">
+                    {location.city}
                   </span>
+                  <button
+                    onClick={onClose}
+                    className="flex items-center justify-center w-7 h-7 bg-black/10 hover:bg-black/20 transition-colors"
+                  >
+                    <X size={14} className="text-black" />
+                  </button>
                 </div>
-                <div className="flex items-center gap-1 text-xs font-bold text-black/40">
-                  <MapPin size={10} />
-                  {location.address.split(",")[0]}
+
+                {/* Café name */}
+                <h2 className="text-4xl font-black uppercase leading-none tracking-tight text-black mb-3">
+                  {location.name}
+                </h2>
+
+                {/* Status row */}
+                <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-1.5">
+                    <span className={`w-2 h-2 rounded-full ${open ? "bg-black" : "bg-black/30"}`} />
+                    <span className="text-xs font-black uppercase tracking-wide text-black">
+                      {open
+                        ? `Open · tot ${pad(location.closeHour)}`
+                        : `Gesloten · opent ${pad(location.openHour)}`}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs font-bold text-black/40">
+                    <MapPin size={10} />
+                    {location.address.split(",")[0]}
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Feature grid */}
-            <div className="grid grid-cols-2 gap-px bg-[#2A2A2A] border-b border-[#2A2A2A]">
-              <FeatureCell label="Schermen" value={`${location.screens} · ${location.hasLargeScreen ? "Groot" : "Normaal"}`} />
-              <FeatureCell label="Terras" value={location.hasTerrace ? "Ja" : "Nee"} dim={!location.hasTerrace} />
-              <FeatureCell label="Groot scherm" value={location.hasLargeScreen ? "Ja" : "Nee"} dim={!location.hasLargeScreen} />
-              <FeatureCell label="Openingstijden" value={`${pad(location.openHour)}–${pad(location.closeHour)}`} />
-            </div>
+            {/* Scrollable body */}
+            <div className="flex-1 overflow-y-auto bg-[#0D0D0D]">
+              {/* Feature grid */}
+              <div className="grid grid-cols-2 gap-px bg-[#2A2A2A] border-b border-[#2A2A2A]">
+                <FeatureCell label="Schermen" value={`${location.screens} · ${location.hasLargeScreen ? "Groot" : "Normaal"}`} />
+                <FeatureCell label="Terras" value={location.hasTerrace ? "Ja" : "Nee"} dim={!location.hasTerrace} />
+                <FeatureCell label="Groot scherm" value={location.hasLargeScreen ? "Ja" : "Nee"} dim={!location.hasLargeScreen} />
+                <FeatureCell label="Openingstijden" value={`${pad(location.openHour)}–${pad(location.closeHour)}`} />
+              </div>
 
-            {/* Routebeschrijving CTA */}
-            <div className="p-4">
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.name + " " + location.address)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex w-full items-center justify-center gap-2 bg-white text-black py-4 text-sm font-black uppercase tracking-widest hover:bg-[#F5A800] transition-colors"
-              >
-                Routebeschrijving →
-              </a>
+              {/* CTA */}
+              <div className="p-4">
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.name + " " + location.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center gap-2 bg-white text-black py-4 text-sm font-black uppercase tracking-widest hover:bg-[#F5A800] transition-colors"
+                >
+                  Routebeschrijving →
+                </a>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </>
