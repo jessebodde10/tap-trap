@@ -180,7 +180,7 @@ export default function Home() {
         </div>
         <Link
           href="/aanmelden"
-          className="text-sm font-medium text-[#1A1A1A] border border-[rgba(26,26,26,0.2)] rounded-full px-3 py-1.5 hover:bg-[#EDE8D0] hover:border-[rgba(26,26,26,0.4)] transition-colors whitespace-nowrap"
+          className="text-sm font-medium text-white bg-[#1B4332] border border-[#1B4332] rounded-full px-3 py-1.5 hover:bg-[#2D6A4F] hover:border-[#2D6A4F] transition-colors whitespace-nowrap"
         >
           Café aanmelden
         </Link>
