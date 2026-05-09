@@ -171,7 +171,7 @@ export default function Home() {
       {/* ── Header ── */}
       <div className="flex items-center justify-between px-4 pt-4 pb-2 shrink-0">
         <div>
-          <h1 className="text-2xl font-semibold text-[#1A1A1A] leading-none">
+          <h1 className="text-2xl font-semibold text-[#C97A0A] leading-none">
             Tap <span style={{ fontFamily: "var(--font-lora)", fontStyle: "italic", fontWeight: 700 }}>&amp;Trap</span>
           </h1>
           <p className="text-[10px] font-medium text-[#7A7465] tracking-wide mt-0.5">
