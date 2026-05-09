@@ -174,6 +174,9 @@ export default function Home() {
           <h1 className="text-2xl font-semibold text-[#1A1A1A] leading-none">
             Tap <span style={{ fontFamily: "var(--font-lora)", fontStyle: "italic", fontWeight: 700 }}>&amp;Trap</span>
           </h1>
+          <p className="text-[10px] font-medium text-[#7A7465] tracking-wide mt-0.5">
+            Vind het café waar Oranje wint.
+          </p>
         </div>
         <Link
           href="/aanmelden"
