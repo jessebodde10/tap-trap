@@ -17,12 +17,14 @@ function FlyToController({ target }: { target: FlyToTarget }) {
 
 const amberDotIcon = L.divIcon({
   className: "",
-  html: `<div style="
-    width:14px;height:14px;background:#C97A0A;border-radius:50%;
-    border:2px solid white;box-shadow:0 1px 5px rgba(0,0,0,0.25)
-  "></div>`,
-  iconSize: [14, 14],
-  iconAnchor: [7, 7],
+  html: `<div style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.32))">
+    <svg width="26" height="38" viewBox="0 0 26 38" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13 0C5.82 0 0 5.82 0 13c0 8.8 13 25 13 25S26 21.8 26 13C26 5.82 20.18 0 13 0z" fill="#C97A0A"/>
+      <circle cx="13" cy="12.5" r="5" fill="white"/>
+    </svg>
+  </div>`,
+  iconSize: [26, 38],
+  iconAnchor: [13, 38],
 });
 
 interface Props {
