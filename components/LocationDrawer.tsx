@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, MapPin } from "lucide-react";
+import { X, MapPin, ArrowLeft } from "lucide-react";
 import { Location } from "@/types";
 
 interface Props {
@@ -38,7 +38,7 @@ export default function LocationDrawer({ location, onClose }: Props) {
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-[600] bg-black/60 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[600] bg-black/40 transition-opacity duration-300 ${
           location ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
@@ -61,69 +61,82 @@ export default function LocationDrawer({ location, onClose }: Props) {
       >
         {location && (
           <>
-            {/* Amber header — always visible */}
-            <div className="bg-[#F5A800] shrink-0">
+            {/* Green header */}
+            <div className="bg-[#1B4332] shrink-0">
               {/* Swipe handle */}
-              <div className="flex justify-center pt-2 pb-0 md:hidden">
-                <div className="h-1 w-10 rounded-full bg-black/20" />
+              <div className="flex justify-center pt-2 md:hidden">
+                <div className="h-1 w-10 rounded-full bg-white/20" />
               </div>
 
               <div className="px-5 pt-3 pb-5">
                 {/* Top row */}
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-black/50">
-                    {location.city}
-                  </span>
+                <div className="flex items-center justify-between mb-3">
                   <button
                     onClick={onClose}
-                    className="flex items-center justify-center w-7 h-7 bg-black/10 hover:bg-black/20 transition-colors"
+                    className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                   >
-                    <X size={14} className="text-black" />
+                    <ArrowLeft size={16} className="text-white" />
                   </button>
+                  <div className="flex gap-2">
+                    <button className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                      <span className="text-white text-sm">✏</span>
+                    </button>
+                    <button className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+                      <span className="text-white text-sm">★</span>
+                    </button>
+                  </div>
                 </div>
 
+                {/* Category label */}
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-[#C97A0A] mb-2">
+                  {location.hasTerrace ? "Terras" : "Café"} · {location.city}
+                </p>
+
                 {/* Café name */}
-                <h2 className="text-4xl font-black uppercase leading-none tracking-tight text-black mb-3">
+                <h2
+                  className="text-3xl font-bold text-white leading-tight mb-3"
+                  style={{ fontFamily: "var(--font-lora)" }}
+                >
                   {location.name}
                 </h2>
 
                 {/* Status row */}
                 <div className="flex items-center gap-3 flex-wrap">
                   <div className="flex items-center gap-1.5">
-                    <span className={`w-2 h-2 rounded-full ${open ? "bg-black" : "bg-black/30"}`} />
-                    <span className="text-xs font-black uppercase tracking-wide text-black">
+                    <span className={`w-2 h-2 rounded-full ${open ? "bg-[#C97A0A]" : "bg-white/30"}`} />
+                    <span className="text-sm font-medium text-white/90">
                       {open
-                        ? `Open · tot ${pad(location.closeHour)}`
+                        ? `Open tot ${pad(location.closeHour)}`
                         : `Gesloten · opent ${pad(location.openHour)}`}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 text-xs font-bold text-black/40">
-                    <MapPin size={10} />
+                  <div className="flex items-center gap-1 text-sm text-white/50">
+                    <MapPin size={11} />
                     {location.address.split(",")[0]}
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Scrollable body */}
-            <div className="flex-1 overflow-y-auto bg-[#0D0D0D]">
-              {/* Feature grid */}
-              <div className="grid grid-cols-2 gap-px bg-[#2A2A2A] border-b border-[#2A2A2A]">
-                <FeatureCell label="Schermen" value={`${location.screens} · ${location.hasLargeScreen ? "Groot" : "Normaal"}`} />
-                <FeatureCell label="Terras" value={location.hasTerrace ? "Ja" : "Nee"} dim={!location.hasTerrace} />
-                <FeatureCell label="Groot scherm" value={location.hasLargeScreen ? "Ja" : "Nee"} dim={!location.hasLargeScreen} />
-                <FeatureCell label="Openingstijden" value={`${pad(location.openHour)}–${pad(location.closeHour)}`} />
+            {/* Scrollable cream body */}
+            <div className="flex-1 overflow-y-auto bg-[#F2EDD8]">
+              {/* Feature rows */}
+              <div className="divide-y divide-[rgba(26,26,26,0.08)] px-5">
+                <FeatureRow label="Schermen" value={`${location.screens}× ${location.hasLargeScreen ? "groot" : "normaal"}`} />
+                <FeatureRow label="Terras" value={location.hasTerrace ? "Aanwezig" : "Niet aanwezig"} dim={!location.hasTerrace} />
+                <FeatureRow label="Groot scherm" value={location.hasLargeScreen ? "Ja" : "Nee"} dim={!location.hasLargeScreen} />
+                <FeatureRow label="Openingstijden" value={`${pad(location.openHour)} – ${pad(location.closeHour)}`} />
               </div>
 
               {/* CTA */}
-              <div className="p-4">
+              <div className="p-5">
                 <a
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.name + " " + location.address)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex w-full items-center justify-center gap-2 bg-white text-black py-4 text-sm font-black uppercase tracking-widest hover:bg-[#F5A800] transition-colors"
+                  className="flex w-full items-center justify-center gap-2 bg-[#1A1A1A] text-white rounded-full py-4 text-sm font-semibold hover:bg-[#1B4332] transition-colors"
                 >
-                  Routebeschrijving →
+                  Routebeschrijving
                 </a>
               </div>
             </div>
@@ -134,13 +147,11 @@ export default function LocationDrawer({ location, onClose }: Props) {
   );
 }
 
-function FeatureCell({ label, value, dim }: { label: string; value: string; dim?: boolean }) {
+function FeatureRow({ label, value, dim }: { label: string; value: string; dim?: boolean }) {
   return (
-    <div className="bg-[#0D0D0D] px-4 py-3">
-      <div className="text-[9px] font-black uppercase tracking-widest text-white/25 mb-1">{label}</div>
-      <div className={`text-sm font-black uppercase tracking-wide ${dim ? "text-white/25" : "text-white"}`}>
-        {value}
-      </div>
+    <div className="flex items-start justify-between gap-4 py-3.5">
+      <span className="text-xs font-semibold uppercase tracking-wider text-[#7A7465] shrink-0 pt-0.5">{label}</span>
+      <span className={`text-sm font-medium text-right ${dim ? "text-[#7A7465]" : "text-[#1A1A1A]"}`}>{value}</span>
     </div>
   );
 }
