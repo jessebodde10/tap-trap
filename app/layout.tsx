@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Lora, Inter } from "next/font/google";
+import { Lora, Inter, Anybody, Lexend } from "next/font/google";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
@@ -15,6 +15,20 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const anybody = Anybody({
+  subsets: ["latin"],
+  weight: ["700", "800", "900"],
+  variable: "--font-anybody",
+  display: "swap",
+});
+
+const lexend = Lexend({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-lexend",
   display: "swap",
 });
 
@@ -35,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl" className={`h-full ${lora.variable} ${inter.variable}`}>
+    <html lang="nl" className={`h-full ${lora.variable} ${inter.variable} ${anybody.variable} ${lexend.variable}`}>
       <body className="h-full">{children}</body>
     </html>
   );

@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* ── Oranje Cafe design tokens ─────────────────────────────────── */
+@theme {
+  --color-ok-primary:    #a93100;
+  --color-ok-container:  #d34000;
+  --color-ok-secondary:  #395ab0;
+  --color-ok-bg:         #fff8f6;
+  --color-ok-surface:    #3f2c26;
+  --color-ok-muted:      #7a5c55;
+  --font-anybody:        var(--font-anybody), system-ui, sans-serif;
+  --font-lexend:         var(--font-lexend), system-ui, sans-serif;
+}
+
 :root {
   --bg:      #F2EDD8;
   --surface: #EDE8D0;
